@@ -11,8 +11,8 @@ import Home from './pages/home';
 import About from './pages/about';
 import Contact from './pages/contact';
 import Blog from './pages/blog';
-import PortfolioDetail from './porfolio/portfolio-detail';
-import noMatch from './pages/no-match';
+import PortfolioDetail from './portfolio/portfolio-detail';
+import NoMatch from './pages/no-match';
 
 export default class App extends Component {
   render() {
@@ -31,7 +31,7 @@ export default class App extends Component {
               <Route path="/contacto" component={Contact} />
               <Route path="/blogs" component={Blog} />
               <Route exact path="/portfolio/:slug" component={PortfolioDetail} />
-              <Route component={noMatch} />
+              <Route component={NoMatch} />
             </Switch>
           </div>
         </Router>

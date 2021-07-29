@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 
-import Portfolioitem from "./porfolio-item"
+import Portfolioitem from "./portfolio-item"
 
-export default class PorfolioContainer extends Component {
+export default class PortfolioContainer extends Component {
     constructor() {
         super()  
         
