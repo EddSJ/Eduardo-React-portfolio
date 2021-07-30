@@ -6,7 +6,7 @@ import {
   Route
 }from "react-router-dom"
 
-import NavigationContainer from './navigation/navigation-container';
+import NavigationComponent from './navigation/navigation-component';
 import Home from './pages/home';
 import About from './pages/about';
 import Contact from './pages/contact';
@@ -15,6 +15,8 @@ import PortfolioDetail from './portfolio/portfolio-detail';
 import NoMatch from './pages/no-match';
 
 export default class App extends Component {
+ 
+
   render() {
     return (
       <div className='app'>
@@ -23,7 +25,7 @@ export default class App extends Component {
           <div>
             <h1>Eduardo Sanchez</h1>
             <div>{moment().format("MMMM Do YYYY, h:mm:ss a")}</div>
-            <NavigationContainer />
+            <NavigationComponent />
 
             <Switch>
               <Route exact path="/" component={Home} />
