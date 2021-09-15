@@ -1,9 +1,5 @@
 import React from "react";
 
 export default function() {
-    return (
-        <div>
-            Acercade mi
-        </div>
-    )
+  return <div>About</div>;
 }
