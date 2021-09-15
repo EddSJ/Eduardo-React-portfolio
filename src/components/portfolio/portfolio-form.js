@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { DropzoneComponent } from 'react-dropzone-component';
+import React, { Component } from "react";
+import axios from "axios";
+import DropzoneComponent from "react-dropzone-component";
 
 import "../../../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../../../node_modules/dropzone/dist/min/dropzone.min.css";
@@ -17,8 +17,11 @@ export default class PortfolioForm extends Component {
             url: "",
             thumb_image: "",
             banner_image: "",
-            logo: ""
-        }
+            logo: "",
+            editMode: false,
+            apiUrl: "https://eduardosj.devcamp.space/portfolio/portfolio_items",
+            apiAction: "post"
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,15 +30,15 @@ export default class PortfolioForm extends Component {
         this.handleThumbDrop = this.handleThumbDrop.bind(this);
         this.handleBannerDrop = this.handleBannerDrop.bind(this);
         this.handleLogoDrop = this.handleLogoDrop.bind(this);
-
-
+    
         this.thumbRef = React.createRef();
         this.bannerRef = React.createRef();
-        this.logRef = React.createRef();
-    }
+        this.logoRef = React.createRef();
+      }
+    
 
     componentDidUpdate() {
-        if (Object.keys(this.props.portfolioToEdit).lenght > 0) {
+        if (Object.keys(this.props.portfolioToEdit).length > 0) {
             const {
                 id,
                 name,
@@ -56,7 +59,10 @@ export default class PortfolioForm extends Component {
                 description: description || "",
                 category: category || "eCommerce",
                 position: position || "",
-                url: url || "", 
+                url: url || "",
+                editMode: true,
+                apiUrl: `https://eduardosj.devcamp.space/portfolio/portfolio_items/${id}`,
+                apiAction: "patch" 
             });
         }
     }
@@ -124,10 +130,13 @@ export default class PortfolioForm extends Component {
     }
 
     handleSubmit(event) {
-        axios.post("https://eduardosj.devcamp.space/portfolio/portfolio_items", 
-        this.buildForm(), 
-        { withCredentials: true}
-        ).then(response => {
+        axios({
+            method: this.state.apiAction,
+            url: this.state.apiUrl,
+            data: this.buildForm(),
+            withCredentials: true
+        })
+        .then(response => {
             this.props.handleSuccessfulFormSubmission(response.data.portfolio_item)
 
             this.setState({
@@ -141,7 +150,7 @@ export default class PortfolioForm extends Component {
                 logo: ""
             });
 
-            [this.thumbRef, this.bannerRef, this.logRef].forEach(ref => {
+            [this.thumbRef, this.bannerRef, this.logoRef].forEach(ref => {
                 ref.current.dropzone.removeAllFiles();
             });
         }).catch(error => {
@@ -218,7 +227,7 @@ export default class PortfolioForm extends Component {
                         <div className="dz-message">Banner</div>
                     </DropzoneComponent>
                     <DropzoneComponent
-                    ref={this.logRef}
+                    ref={this.logoRef}
                     config={this.componentConfig()}
                     djsConfig={this.djsConfig()}
                     eventHandlers={this.handleLogoDrop()}
